@@ -1,3 +1,5 @@
+import copy
+
 import pygame
 import sys
 
@@ -107,15 +109,18 @@ class BFS:
     def drawPath(self):
         if self.success:
             curr_node = self.goal
-            self.path.append(curr_node)
+            self.path.append(copy.deepcopy(curr_node))
             while not (curr_node[0]==self.start[0] and curr_node[1]==self.start[1]):
                 x = curr_node[0] + self.back_trace_row[curr_node[0]][curr_node[1]]
                 y = curr_node[1] + self.back_trace_col[curr_node[0]][curr_node[1]]
                 curr_node[0] = x
                 curr_node[1] = y
-                self.path.append(curr_node)
-                # print(x, y)
-            # print(len(self.path))
+                self.path.append(copy.deepcopy(curr_node))
+            for step in self.path:
+                i = step[1]
+                j = step[0]
+                SCREEN.blit(self.font.render(str(self.graph[j][i]), True, GREEN), (i * grid_x_dim, j * grid_y_dim))
+
 
 
 
